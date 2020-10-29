@@ -27,3 +27,6 @@ if __name__ == "__main__":
         PROC = multiprocessing.Process(target=execute_task, args=(VAL,))
         PROC.start()
         PROC.join()
+    else:
+        print(" ".join(sys.argv))
+        print("Not Valid Data")
