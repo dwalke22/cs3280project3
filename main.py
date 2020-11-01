@@ -11,22 +11,35 @@ import utils
 __author__ = "David Walker"
 __version__ = "Fall 2020"
 
-def execute_task(arguments):
-    """The task to execute"""
+def scan(arguments):
+    """
+    The task to execute
+
+    arguments - specified arguments
+    """
     print('Trying something...')
     print('with process no. ' + str(os.getppid()))
     print('...using ' + arguments)
 
 if __name__ == "__main__":
     IP_ADDRESS = sys.argv[1]
-    START_PORT = sys.argv[2]
+    START_PORT = int(sys.argv[2])
     if len(sys.argv) == 4:
-        END_PORT = sys.argv[3]
+        END_PORT = int(sys.argv[3])
+        if START_PORT > END_PORT:
+            raise ValueError("End Port value must come after Start Port")
     if utils.verify_ipv4(IP_ADDRESS):
-        VAL = " ".join(sys.argv)
-        PROC = multiprocessing.Process(target=execute_task, args=(VAL,))
-        PROC.start()
-        PROC.join()
+        ports = range(START_PORT, END_PORT)
+        list_of_ports = []
+
+        for idx, val in enumerate(ports):
+            proc = multiprocessing.Process(target=scan, args=(VAL,))
+            list_of_ports.append(proc)
+            proc.start()
+
+        for proc in list_of_ports:
+            proc.join()
+        
     else:
         print(" ".join(sys.argv))
         print("Not Valid Data")
