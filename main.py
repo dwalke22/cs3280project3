@@ -29,11 +29,11 @@ if __name__ == "__main__":
         if START_PORT > END_PORT:
             raise ValueError("End Port value must come after Start Port")
     if utils.verify_ipv4(IP_ADDRESS):
-        ports = range(START_PORT, END_PORT)
+        ports = range(START_PORT, END_PORT + 1)
         list_of_ports = []
 
         for idx, val in enumerate(ports):
-            proc = multiprocessing.Process(target=scan, args=(VAL,))
+            proc = multiprocessing.Process(target=scan, args=(str(val),))
             list_of_ports.append(proc)
             proc.start()
 
