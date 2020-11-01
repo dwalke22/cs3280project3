@@ -3,6 +3,7 @@
 Provides utility methods for scanning TCP connections
 """
 import re
+import socket
 
 def verify_ipv4(ip_address):
     """Verifies that the ip is a valid IPv4 address"""
@@ -12,3 +13,11 @@ def verify_ipv4(ip_address):
 
 def scan(ip_address, port):
     """Scans the port to see if the port is open"""
+    s = socket.socket()
+
+    try:
+        s.connect((ip_addres,port))
+    except:
+        return False
+    else:
+        return True
