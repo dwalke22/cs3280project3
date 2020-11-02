@@ -3,41 +3,27 @@
 Port scanner that attempts to make a
 TCP connection
 """
-import multiprocessing
 import sys
-import os
+from socket import AF_INET, SOCK_STREAM, socket
 import utils
 
 __author__ = "David Walker"
 __version__ = "Fall 2020"
 
-def scan(arguments):
-    """
-    The task to execute
-
-    arguments - specified arguments
-    """
-    print("Port: " + arguments + " " + str(utils.scan(IP_ADDRESS, arguments)))
-
 if __name__ == "__main__":
     IP_ADDRESS = sys.argv[1]
-    START_PORT = int(sys.argv[2])
+    if not utils.verify_ipv4(IP_ADDRESS):
+        print("Not Valid IP")
+    START = int(sys.argv[2])
     if len(sys.argv) == 4:
-        END_PORT = int(sys.argv[3])
-        if START_PORT > END_PORT:
-            raise ValueError("End Port value must come after Start Port")
-    if utils.verify_ipv4(IP_ADDRESS):
-        ports = range(START_PORT, END_PORT + 1)
-        list_of_ports = []
-
-        for idx, val in enumerate(ports):
-            proc = multiprocessing.Process(target=scan, args=(str(val),))
-            list_of_ports.append(proc)
-            proc.start()
-
-        for proc in list_of_ports:
-            proc.join()
-        
+        END = int(sys.argv[3])
+        for i in range(START, END):
+            s = socket(AF_INET, SOCK_STREAM)
+            conn = s.connect_ex((IP_ADDRESS, i))
+            print("Port " + str(i) + " " + str(conn))
+            s.close()
     else:
-        print(" ".join(sys.argv))
-        print("Not Valid Data")
+        for i in range(START,):
+            s = socket(AF_INET, SOCK_STREAM)
+            conn = s.connect_ex((IP_ADDRESS, i))
+            print("Port " + str(i) + " " + str(conn))
