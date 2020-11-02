@@ -17,9 +17,7 @@ def scan(arguments):
 
     arguments - specified arguments
     """
-    print('Trying something...')
-    print('with process no. ' + str(os.getppid()))
-    print('...using ' + arguments)
+    print("Port: " + arguments + " " + str(utils.scan(IP_ADDRESS, arguments)))
 
 if __name__ == "__main__":
     IP_ADDRESS = sys.argv[1]
