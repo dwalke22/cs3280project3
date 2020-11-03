@@ -18,3 +18,5 @@ if __name__ == "__main__":
         print("Not Valid IP")
     START = int(sys.argv[2])
     END = int(sys.argv[3])
+    if START > END:
+        raise ValueError("Start Port cannot come after End Port")
